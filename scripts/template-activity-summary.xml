@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+   <ModulePrefs title="TestRail: Daily Activity Summary"
+                description="Daily activity summary from TestRail for a specific test plan"
+                author="Don Young"
+                author_email="dyoung@zenoss.com"
+                thumbnail="__UP_testRailURL__/images/testrail-activity-gadget-thumbnail.png"
+                height="330">
+      <Require feature="dynamic-height" />
+      <Require feature="settitle" />
+      <Require feature="minimessage" />
+      <Optional feature="gadget-directory">
+         <Param name="categories">Other</Param>
+      </Optional>
+   </ModulePrefs>
+   <UserPref name="projectPlanIDList" display_name="(Project) Test Plan" datatype="<%DATATYPE%>" default_value="<%DEFAULTLIST%>"><%PROJECTPLANLIST%>
+   </UserPref>
+   <UserPref name="testRailURL" display_name="TestRail URL" datatype="hidden" default_value="http://TestRail.server.hostname/testrail"/>
+   <Content type="html" view="default">
+      <![CDATA[
+<div id="activityChart"></div>
+<div id="activityCaption" style="text-align: center; font-weight: bold"></div>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="__UP_testRailURL__/gadgets/testrail-activity-summary.js"></script>
+<p style='text-align: center; font-size: 11px; font-style:italic'>For any of the above links a TestRail login is required.</p>
+]]>
+</Content>
+</Module>

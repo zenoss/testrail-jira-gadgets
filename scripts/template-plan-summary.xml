@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+   <ModulePrefs title="TestRail: Test Plan Status"
+                description="Testing status from TestRail for a specific test plan"
+                author="Don Young"
+                author_email="dyoung@zenoss.com"
+                thumbnail="__UP_testRailURL__/images/testrail-plan-gadget-thumbnail.png"
+                height="330">
+      <Require feature="dynamic-height" />
+      <Require feature="settitle" />
+      <Require feature="minimessage" />
+      <Optional feature="gadget-directory">
+         <Param name="categories">Other</Param>
+      </Optional>
+   </ModulePrefs>
+   <UserPref name="projectResultIDList" display_name="(Project) Test Plan" datatype="<%DATATYPE%>" default_value="<%DEFAULTLIST%>"><%PROJECTPLANLIST%>
+   </UserPref>
+   <UserPref name="showCompleted" display_name="Show completed test results?" datatype="hidden" default_value="false"/>
+   <UserPref name="resultType" display_name="Result type" datatype="hidden" default_value="plan"/>
+   <UserPref name="testRailURL" display_name="TestRail URL" datatype="hidden" default_value="http://TestRail.server.hostname/testrail"/>
+   <Content type="html" view="default">
+      <![CDATA[
+<div id="resultChart"></div>
+<div id="resultCaption" style="text-align: center; font-weight: bold"></div>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="__UP_testRailURL__/gadgets/testrail-plan-or-run-summary.js"></script>
+<p style='text-align: center; font-size: 11px; font-style:italic'>For any of the above links a TestRail login is required.</p>
+]]>
+</Content>
+</Module>
