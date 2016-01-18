@@ -355,6 +355,7 @@ function renderDailyActivity(dailyActivity) {
 
   var options = {
     allowHtml: true,
+    sliceVisibilityThreshold: 0,
     vAxis: {
       gridlines: {
         count: -1,

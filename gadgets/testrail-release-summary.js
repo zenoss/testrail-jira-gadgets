@@ -97,7 +97,7 @@ function handleStatusResponse(obj) {
 
   // This should never happen if everything is configured correctly, but just in case
   if (statusIndex == 0) {
-    document.getElementById('projectsAllCaption').innerHTML = "Unable to retrieve the list of statuses";
+    document.getElementById('releaseCaption').innerHTML = "Unable to retrieve the list of statuses";
     msg.dismissMessage(loadMessage);
     gadgets.window.adjustHeight();
   } else {
@@ -268,6 +268,7 @@ function renderTestResults(testResults) {
     // Set chart options
     var options = {
       allowHtml: true,
+      sliceVisibilityThreshold: 0,
       colors: colorArray,
       legend: {
         alignment: 'center',

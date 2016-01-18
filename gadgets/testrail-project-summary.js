@@ -319,6 +319,7 @@ function renderTestResults(testResults) {
 
     var options = {
       allowHtml: true,
+      sliceVisibilityThreshold: 0,
       height: chartHeight,
       width: chartWidth,
       colors: colorArray,

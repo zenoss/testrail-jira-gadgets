@@ -327,6 +327,7 @@ function renderTestResults() {
   // Set chart options
   var options = {
     allowHtml: true,
+    sliceVisibilityThreshold: 0,
     colors: colorArray,
     legend: {
       alignment: 'center',
