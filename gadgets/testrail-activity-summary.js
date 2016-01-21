@@ -129,7 +129,7 @@ function handleStatusResponse(obj) {
 
   // This should never happen if everything is configured correctly, but just in case
   if (statusIndex == 0) {
-    document.getElementById('projectsAllCaption').innerHTML = "Unable to retrieve the list of statuses";
+    document.getElementById('activityCaption').innerHTML = "Unable to retrieve the list of statuses";
     msg.dismissMessage(loadMessage);
     gadgets.window.adjustHeight();
   } else {
@@ -227,28 +227,31 @@ function handlePlanResponse(obj) {
   var planData = gadgets.json.parse(obj.data);
   var responseLength = 0;
 
-  if (planData != null) {
+  if (obj.rc == 200) {
     planName = planData.name;
     planURL = planData.url;
     entries = planData.entries;
     responseLength = entries.length;
-  }
 
-  // Get all of the runs in this plan and add their IDs to the runList array
-  for (var i = 0; i < responseLength; i++) {
-    for (var j = 0; j < entries[i].runs.length; j++) {
-      runList.push(entries[i].runs[j].id);
+    // Get all of the runs in this plan and add their IDs to the runList array
+    for (var i = 0; i < responseLength; i++) {
+      for (var j = 0; j < entries[i].runs.length; j++) {
+        runList.push(entries[i].runs[j].id);
+      }
     }
-  }
-
-  runLength = runList.length;
-  runIndex = 0;
-  if (runLength > 0) {
-    fetchRunResults();
+    runLength = runList.length;
+    runIndex = 0;
+    if (runLength > 0) {
+      fetchRunResults();
+    } else {
+      renderDailyActivity(dailyActivity);
+      msg.dismissMessage(loadMessage);
+      gadgets.window.setTitle("Daily Activity");
+      gadgets.window.adjustHeight();
+    }
   } else {
-    renderDailyActivity(dailyActivity);
+    document.getElementById('activityCaption').innerHTML = "Test plan not found";
     msg.dismissMessage(loadMessage);
-    gadgets.window.setTitle("Daily Activity");
     gadgets.window.adjustHeight();
   }
 }
