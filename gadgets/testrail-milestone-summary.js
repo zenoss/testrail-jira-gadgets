@@ -97,7 +97,7 @@ function handleStatusResponse(obj) {
 
   // This should never happen if everything is configured correctly, but just in case
   if (statusIndex == 0) {
-    document.getElementById('projectCaption').innerHTML = "Unable to retrieve the list of statuses";
+    document.getElementById('milestoneCaption').innerHTML = "Unable to retrieve the list of statuses";
     msg.dismissMessage(loadMessage);
     gadgets.window.adjustHeight();
   } else {
