@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+   <ModulePrefs title="TestRail: User Activity Summary"
+                description="User activity summary from TestRail for a specific test plan"
+                author="Don Young"
+                author_email="dyoung@zenoss.com"
+                thumbnail="__UP_testRailURL__/images/testrail-user-activity-gadget-thumbnail.png"
+                height="330">
+      <Require feature="dynamic-height" />
+      <Require feature="settitle" />
+      <Require feature="minimessage" />
+      <Optional feature="gadget-directory">
+         <Param name="categories">Other</Param>
+      </Optional>
+   </ModulePrefs>
+   <UserPref name="projectPlanIDList" display_name="(Project) Test Plan" datatype="<%DATATYPE%>" default_value="<%DEFAULTLIST%>"><%PROJECTPLANLIST%>
+   </UserPref>
+   <UserPref name="numberOfDays" display_name="Number of days" datatype="enum" default_value="1">
+      <EnumValue value="1" display_value="Past day"/>
+      <EnumValue value="2" display_value="Past two days"/>
+      <EnumValue value="3" display_value="Past three days"/>
+      <EnumValue value="4" display_value="Past four days"/>
+      <EnumValue value="5" display_value="Past five days"/>
+      <EnumValue value="6" display_value="Past six days"/>
+      <EnumValue value="7" display_value="Past week"/>
+   </UserPref>
+   <UserPref name="testRailURL" display_name="TestRail URL" datatype="hidden" default_value="http://TestRail.server.hostname/testrail"/>
+   <Content type="html" view="default">
+      <![CDATA[
+<div id="userActivityChart"></div>
+<div id="userActivityCaption" style="text-align: center; font-weight: bold"></div>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="__UP_testRailURL__/gadgets/testrail-user-activity-summary.js"></script>
+<p style='text-align: center; font-size: 11px; font-style:italic'>For any of the above links a TestRail login is required.</p>
+]]>
+</Content>
+</Module>
