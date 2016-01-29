@@ -21,6 +21,7 @@ The following JIRA gadget files can be used to display current TestRail data for
   - [TestRail: Test Plan Status](#testrail-test-plan-status)
   - [TestRail: Test Run Status](#testrail-test-run-status)
   - [TestRail: Testing Status](#testrail-testing-status)
+  - [TestRail: User Activity Summary](#testrail-user-activity-summary)
 
 ## Installation onto TestRail Server
 
@@ -47,11 +48,13 @@ These files can reside anywhere on the TestRail server, as long as they are in t
 - generate-run-gadget-xml.pl
 - generate-plan-gadget-xml.pl
 - generate-project-gadget-xml.pl
+- generate-user-activity-gadget-xml.pl
 - template-activity-summary.xml
 - template-milestone-summary.xml
 - template-plan-summary.xml
 - template-project-summary.xml
 - template-run-summary.xml
+- template-user-activity-summary.xml
 
 The scripts can be run manually at any time, but a cron job should be setup to run them every hour (or as frequently as you'd like). Assuming the scripts and template files are in /root then the following should be in crontab:
 
@@ -61,6 +64,7 @@ The scripts can be run manually at any time, but a cron job should be setup to r
 00 * * * * cd /root;./generate-plan-gadget-xml.pl
 00 * * * * cd /root;./generate-project-gadget-xml.pl
 00 * * * * cd /root;./generate-run-gadget-xml.pl
+00 * * * * cd /root;./generate-user-activity-gadget-xml.pl
 ```
 
 ### Image Files
@@ -74,6 +78,7 @@ The files in the `images` directory should be placed in `/var/www/html/testrail/
 - testrail-projects-all-gadget-thumbnail.png
 - testrail-release-gadget-thumbnail.png
 - testrail-run-gadget-thumbnail.png
+- testrail-user-activity-gadget-thumbnail.png
 
 ### Gadget XML and JavaScript Files
 
@@ -88,6 +93,7 @@ Create the gadgets directory under the directory where TestRail is installed (de
 - testrail-projects-all-summary.js
 - testrail-release-summary.js
 - testrail-run-summary.js
+- testrail-user-activity-summary.js
 
 ## Configuration
 
@@ -113,6 +119,7 @@ Once the gadget files have been installed onto the TestRail server and the scrip
 -  http://_TestRail.server.hostname_/testrail/gadgets/testrail-project-summary.xml
 -  http://_TestRail.server.hostname_/testrail/gadgets/testrail-release-summary.xml
 -  http://_TestRail.server.hostname_/testrail/gadgets/testrail-run-summary.xml
+-  http://_TestRail.server.hostname_/testrail/gadgets/testrail-user-activity-summary.xml
 
 **NOTES:**
 
@@ -181,3 +188,11 @@ Displays the current test results for all test plans across all projects.
 #### Settings
 
 None
+
+### TestRail: User Activity Summary
+
+Displays the number of test results for each status added per user for specified number of days on a specific test plan.
+
+#### Settings
+- **(Project) Test Plan** - TestRail project and test plan
+- **Number of Days** - Number of days of activity to display
