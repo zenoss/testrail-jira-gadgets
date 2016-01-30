@@ -23,6 +23,7 @@
       <EnumValue value="5" display_value="Past five days"/>
       <EnumValue value="6" display_value="Past six days"/>
       <EnumValue value="7" display_value="Past week"/>
+      <EnumValue value="0" display_value="Unlimited"/>
    </UserPref>
    <UserPref name="testRailURL" display_name="TestRail URL" datatype="hidden" default_value="http://TestRail.server.hostname/testrail"/>
    <Content type="html" view="default">

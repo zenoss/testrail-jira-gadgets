@@ -191,8 +191,8 @@ None
 
 ### TestRail: User Activity Summary
 
-Displays the number of test results for each status added per user for specified number of days on a specific test plan.
+Displays the number of test results for each status added per user for a specified number of days on a specific test plan.
 
 #### Settings
 - **(Project) Test Plan** - TestRail project and test plan
-- **Number of Days** - Number of days of activity to display
+- **Number of Days** - Number of days of activity to display (Unlimited will display all activity)

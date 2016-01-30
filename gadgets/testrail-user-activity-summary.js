@@ -129,7 +129,11 @@ function handleStatusResponse(obj) {
 
   // This should never happen if everything is configured correctly, but just in case
   if (statusIndex == 0) {
-    gadgets.window.setTitle("User Activity: Past " + numberOfDays + " day(s)");
+    var title = "User Activity";
+    if (numberOfDays > 0) {
+      title = title + ": Past " + numberOfDays + " day(s)";
+    }
+    gadgets.window.setTitle(title);
     document.getElementById('userActivityCaption').innerHTML = "Unable to retrieve the list of statuses";
     msg.dismissMessage(loadMessage);
     gadgets.window.adjustHeight();
@@ -187,7 +191,11 @@ function handleUserResponse(obj) {
 
   // This should never happen if everything is configured correctly, but just in case
   if (userIndex == 0) {
-    gadgets.window.setTitle("User Activity: Past " + numberOfDays + " day(s)");
+    var title = "User Activity";
+    if (numberOfDays > 0) {
+      title = title + ": Past " + numberOfDays + " day(s)";
+    }
+    gadgets.window.setTitle(title);
     document.getElementById('userActivityCaption').innerHTML = "Unable to retrieve the list of users";
     msg.dismissMessage(loadMessage);
     gadgets.window.adjustHeight();
@@ -207,7 +215,11 @@ function fetchProjectInfo() {
 
   // Don't make the API call if no test plans/runs were in the XML
   if (projectID == "0") {
-    gadgets.window.setTitle("User Activity: Past " + numberOfDays + " day(s)");
+    var title = "User Activity";
+    if (numberOfDays > 0) {
+      title = title + ": Past " + numberOfDays + " day(s)";
+    }
+    gadgets.window.setTitle(title);
     document.getElementById('userActivityCaption').innerHTML = "Test plan not found";
     msg.dismissMessage(loadMessage);
     gadgets.window.adjustHeight();
@@ -270,19 +282,27 @@ function handlePlanResponse(obj) {
     if (runLength > 0) {
       fetchRunResults();
     } else {
+      var title = projectName + " User Activity";
+      if (numberOfDays > 0) {
+        title = title + ": Past " + numberOfDays + " day(s)";
+      }
       if (total > 0) {
-        gadgets.window.setTitle(projectName + " User Activity: Past " + numberOfDays + " day(s)");
+        gadgets.window.setTitle(title);
         renderUserActivity(userActivity);
         msg.dismissMessage(loadMessage);
       } else {
-        gadgets.window.setTitle(projectName + " User Activity: Past " + numberOfDays + " day(s)");
+        gadgets.window.setTitle(title);
         document.getElementById('userActivityCaption').innerHTML = "No user activity for the <a href=\"" + planURL + "\" target=\"_blank\">" + planName + "</a> test plan";
         msg.dismissMessage(loadMessage);
         gadgets.window.adjustHeight();
       }
     }
   } else {
-    gadgets.window.setTitle(projectName + " User Activity: Past " + numberOfDays + " day(s)");
+    var title = projectName + " User Activity";
+    if (numberOfDays > 0) {
+      title = title + ": Past " + numberOfDays + " day(s)";
+    }
+    gadgets.window.setTitle(title);
     document.getElementById('userActivityCaption').innerHTML = "Test plan not found";
     msg.dismissMessage(loadMessage);
     gadgets.window.adjustHeight();
@@ -321,11 +341,13 @@ function handleResultsResponse(obj) {
     var result = jsondata[i];
     var createdOn = timeConverter(result.created_on);
     var arrIndex = getUserIndex(result.created_by);
-    if ((arrIndex != -1) && (createdOn > startDate) && (createdOn <= endDate) && (result.status_id != null)) {
-      var status = result.status_id;
-      userActivity[arrIndex][status] = userActivity[arrIndex][status] + 1; // Add one to this status for this user
-      userActivity[arrIndex][6+customStatusCount] = userActivity[arrIndex][6+customStatusCount] + 1; // Add one to the total for this user
-      total = total + 1;
+    if ((arrIndex != -1) && (result.status_id != null)) { // User found and status is not null (status is null when the test is assigned)
+      if ((numberOfDays == 0) || (createdOn > startDate && createdOn <= endDate)) { // If unlimited or date is within range
+        var status = result.status_id;
+        userActivity[arrIndex][status] = userActivity[arrIndex][status] + 1; // Add one to this status for this user
+        userActivity[arrIndex][6+customStatusCount] = userActivity[arrIndex][6+customStatusCount] + 1; // Add one to the total for this user
+        total = total + 1;
+      }
     }
   }
   runIndex++;
@@ -333,12 +355,16 @@ function handleResultsResponse(obj) {
   if (runIndex < runLength) {
     fetchRunResults();
   } else {
+    var title = projectName + " User Activity";
+    if (numberOfDays > 0) {
+      title = title + ": Past " + numberOfDays + " day(s)";
+    }
     if (total > 0) {
-      gadgets.window.setTitle(projectName + " User Activity: Past " + numberOfDays + " day(s)");
+      gadgets.window.setTitle(title);
       renderUserActivity(userActivity);
       msg.dismissMessage(loadMessage);
     } else {
-      gadgets.window.setTitle(projectName + " User Activity: Past " + numberOfDays + " day(s)");
+      gadgets.window.setTitle(title);
       document.getElementById('userActivityCaption').innerHTML = "No user activity for the <a href=\"" + planURL + "\" target=\"_blank\">" + planName + "</a> test plan";
       msg.dismissMessage(loadMessage);
       gadgets.window.adjustHeight();
