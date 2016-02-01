@@ -9,6 +9,7 @@ use Config::Properties;
 use MIME::Base64;
 use JSON;
 use REST::Client;
+use HTML::Entities;
 
 # ****************************************************************************
 # Main
@@ -45,13 +46,15 @@ if ($rest->responseCode() != 200) {
    exit(1);
 }
 
+my $encodedName = "";
 @$project_data = sort { $a->{'name'} cmp $b->{'name'} } (@$project_data);
 for my $project_node ( @$project_data ) { 
    if ($project_node->{'is_completed'} == 0) {
       if ($defaultProject eq "0") {
          $defaultProject = $project_node->{'id'};
       }
-      $projectList .= "\n      <EnumValue value=\"$project_node->{'id'}\" display_value=\"$project_node->{'name'}\"/>";
+      $encodedName = encode_entities($project_node->{'name'});
+      $projectList .= "\n      <EnumValue value=\"$project_node->{'id'}\" display_value=\"$encodedName\"/>";
    }
 }
 

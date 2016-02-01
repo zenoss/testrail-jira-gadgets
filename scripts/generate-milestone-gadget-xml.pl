@@ -9,6 +9,7 @@ use Config::Properties;
 use MIME::Base64;
 use JSON;
 use REST::Client;
+use HTML::Entities;
 
 # ****************************************************************************
 # Main
@@ -65,9 +66,9 @@ for my $project_node ( @$project_data ) {
          # Ignore completed milestones
          if ($milestone_node->{'is_completed'} == 0) {
             $projectMilestoneList[$arr_index][0] = $project_node->{'id'};
-            $projectMilestoneList[$arr_index][1] = $project_node->{'name'};
+            $projectMilestoneList[$arr_index][1] = encode_entities($project_node->{'name'});
             $projectMilestoneList[$arr_index][2] = $milestone_node->{'id'};
-            $projectMilestoneList[$arr_index][3] = $milestone_node->{'name'};
+            $projectMilestoneList[$arr_index][3] = encode_entities($milestone_node->{'name'});
             $arr_index++;
          }
       }
