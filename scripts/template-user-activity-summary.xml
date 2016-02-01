@@ -17,12 +17,8 @@
    </UserPref>
    <UserPref name="numberOfDays" display_name="Number of days" datatype="enum" default_value="1">
       <EnumValue value="1" display_value="Past day"/>
-      <EnumValue value="2" display_value="Past two days"/>
-      <EnumValue value="3" display_value="Past three days"/>
-      <EnumValue value="4" display_value="Past four days"/>
-      <EnumValue value="5" display_value="Past five days"/>
-      <EnumValue value="6" display_value="Past six days"/>
       <EnumValue value="7" display_value="Past week"/>
+      <EnumValue value="31" display_value="Past month"/>
       <EnumValue value="0" display_value="Unlimited"/>
    </UserPref>
    <UserPref name="testRailURL" display_name="TestRail URL" datatype="hidden" default_value="http://TestRail.server.hostname/testrail"/>

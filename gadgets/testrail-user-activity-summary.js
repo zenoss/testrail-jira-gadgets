@@ -29,6 +29,13 @@ function timeConverter(UNIX_timestamp){
 
 
 /**
+ * Returns the number of days in a month
+ */
+function daysInMonth(month, year) {
+  return new Date(year, month, 0).getDate();
+}
+
+/**
  * Searches the array for a particular id
  */
 function getUserIndex(id){
@@ -484,6 +491,16 @@ var yyyy = today.getFullYear();
 if(dd<10) {dd='0'+dd}
 if(mm<10) {mm='0'+mm}
 var endDate = yyyy.toString() + mm.toString() + dd.toString();
+
+// If numberOfDays is 31 (1 month) get the actual number of days in the previous month
+if (numberOfDays == 31) {
+  mm = mm - 1;
+  if (mm == 0) {
+    mm == 12;
+    yyyy = yyyy - 1;
+  }
+  numberOfDays = daysInMonth(mm, yyyy);
+}
 
 // Use setTime to go back 24 hours (in milliseconds) * numberOfDays
 // Using setDate doesn't work across month/year boundaries
