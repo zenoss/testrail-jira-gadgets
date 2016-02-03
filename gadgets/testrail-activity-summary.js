@@ -368,6 +368,7 @@ function renderDailyActivity(dailyActivity) {
     colors: colorArray,
     legend: {
       alignment: 'center',
+      maxLines: 3,
       position: 'top'
     },
     chartArea: {
