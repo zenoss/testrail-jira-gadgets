@@ -6,7 +6,7 @@ The following JIRA gadget files can be used to display current TestRail data for
 
 ## Table of Contents
 
-- [Installation onto TestRail Server](#installation-onto-testrail-server)
+- [Installation onto Gadget Server](#installation-onto-gadget-server)
   - [XML Generation Scripts](#xml-generation-scripts)
   - [Image Files](#image-files)
   - [Gadget XML and JavaScript Files](#gadget-xml-and-javascript-files)
@@ -23,24 +23,24 @@ The following JIRA gadget files can be used to display current TestRail data for
   - [TestRail: Testing Status](#testrail-testing-status)
   - [TestRail: User Activity Summary](#testrail-user-activity-summary)
 
-## Installation onto TestRail Server
+## Installation onto Gadget Server
 
-Installation should be performed by an administrator who has access to the TestRail server.
+The gadget files should be installed on a web server in which you have administrator access.  This web server (herein referred to as the gadget server) should be accessible via HTTP/HTTPS from your JIRA server, and it should be able to access your TestRail server via HTTP/HTTPS. If your TestRail server is installed on-site, it can also serve as the gadget server.
 
-**NOTE:** The instructions assume that TestRail is installed in `/var/www/html/testrail` on the server.
+**NOTE:** The instructions assume that the root directory for the HTML files on the gadget server is `/var/www/html` on the server.
 
 ### XML Generation Scripts
 
 The files in the `scripts` directory are used to generate gadget XML files using the template files. Specific project, milestone, test plan, and test run information will be inserted into the generated files.
 
-Perl and the following Perl modules are required. Please install them and any prerequisites.
+Perl and the following Perl modules are required. Please install them and any prerequisites onto the gadget server.
 
 - Config::Properties
 - MIME::Base64
 - JSON
 - REST::Client
 
-These files can reside anywhere on the TestRail server, as long as they are in the same directory. The Perl files (.pl) should be set to executable.
+These files can reside anywhere on the gadget server, as long as they are in the same directory. The Perl files (.pl) should be set to executable.
 
 - generate-gadget-xml.properties
 - generate-activity-gadget-xml.pl
@@ -69,7 +69,7 @@ The scripts can be run manually at any time, but a cron job should be setup to r
 
 ### Image Files
 
-The files in the `images` directory should be placed in `/var/www/html/testrail/images`
+The files in the `images` directory should be placed in `/var/www/html/images`
 
 - testrail-activity-gadget-thumbnail.png
 - testrail-milestone-gadget-thumbnail.png
@@ -82,7 +82,7 @@ The files in the `images` directory should be placed in `/var/www/html/testrail/
 
 ### Gadget XML and JavaScript Files
 
-Create the gadgets directory under the directory where TestRail is installed (default: `/var/www/html/testrail/gadgets`) and place the files from the `gadgets` directory there.
+Create the gadgets directory under the root directory for the HTML files (default: `/var/www/html/gadgets`) and place the files from the `gadgets` directory there.
 
 - testrail-projects-all-summary.xml
 - testrail-release-summary.xml
@@ -104,27 +104,27 @@ Update the following files for your environment:
     - url - url of your TestRail instance
     - username - TestRail user for making API calls
     - password - password or API key for the TestRail user
-- XML files - **all** XML files (from both the `scripts` and the `gadgets` directory) should be updated with the correct URL for your TestRail server in the `testRailURL` user preference
+- XML files - **all** XML files (from both the `scripts` and the `gadgets` directory) should be updated with the correct URL for your TestRail server in the `testRailURL` user preference and the correct URL for you gadget server in the `gadgetURL` user preference.
 - JavaScript (.js) files - should be updated with the proper basic authorization string. Replace user:pass in every .js file with valid credentials for your TestRail instance. The credentials used only need to have the Read-only TestRail role.
 - Perl (.pl) files - once `generate-gadget-xml.properties` and the template XML files have been updated run each of the Perl files at least once to generate the dynamic XML files and ensure those XML files are written to the proper directory.
 
 ## Adding the Gadgets to JIRA's Gadget Directory
 
-Once the gadget files have been installed onto the TestRail server and the scripts to generate the dynamic XML have been run successfully a JIRA administrator should add the following gadgets to the gadget directory (substituting your TestRail hostname):
+Once the gadget files have been installed onto the gadget server and the scripts to generate the dynamic XML have been run successfully a JIRA administrator should add the following gadgets to the gadget directory (substituting your gadget server hostname):
 
--  http://_TestRail.server.hostname_/testrail/gadgets/testrail-activity-summary.xml
--  http://_TestRail.server.hostname_/testrail/gadgets/testrail-milestone-summary.xml
--  http://_TestRail.server.hostname_/testrail/gadgets/testrail-plan-summary.xml
--  http://_TestRail.server.hostname_/testrail/gadgets/testrail-projects-all-summary.xml
--  http://_TestRail.server.hostname_/testrail/gadgets/testrail-project-summary.xml
--  http://_TestRail.server.hostname_/testrail/gadgets/testrail-release-summary.xml
--  http://_TestRail.server.hostname_/testrail/gadgets/testrail-run-summary.xml
--  http://_TestRail.server.hostname_/testrail/gadgets/testrail-user-activity-summary.xml
+-  http://_gadget.server.hostname_/gadgets/testrail-activity-summary.xml
+-  http://_gadget.server.hostname_/gadgets/testrail-milestone-summary.xml
+-  http://_gadget.server.hostname_/gadgets/testrail-plan-summary.xml
+-  http://_gadget.server.hostname_/gadgets/testrail-projects-all-summary.xml
+-  http://_gadget.server.hostname_/gadgets/testrail-project-summary.xml
+-  http://_gadget.server.hostname_/gadgets/testrail-release-summary.xml
+-  http://_gadget.server.hostname_/gadgets/testrail-run-summary.xml
+-  http://_gadget.server.hostname_/gadgets/testrail-user-activity-summary.xml
 
 **NOTES:**
 
-1. If the JIRA server is using HTTPS then TestRail must be as well and should be using a signed certificate.
-2. The JIRA server must be able to connect to your TestRail server via HTTP/HTTPS.
+1. If the JIRA server is using HTTPS then the gadget server must be as well. Also, it should be using a signed certificate.
+2. The JIRA server must be able to connect to your gadget server via HTTP/HTTPS.
 
 ## Adding the Gadgets to a JIRA Dashboard
 

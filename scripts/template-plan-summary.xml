@@ -4,7 +4,7 @@
                 description="Testing status from TestRail for a specific test plan"
                 author="Don Young"
                 author_email="dyoung@zenoss.com"
-                thumbnail="__UP_testRailURL__/images/testrail-plan-gadget-thumbnail.png"
+                thumbnail="__UP_gadgetURL__/images/testrail-plan-gadget-thumbnail.png"
                 height="330">
       <Require feature="dynamic-height" />
       <Require feature="settitle" />
@@ -18,12 +18,13 @@
    <UserPref name="showCompleted" display_name="Show completed test results?" datatype="hidden" default_value="false"/>
    <UserPref name="resultType" display_name="Result type" datatype="hidden" default_value="plan"/>
    <UserPref name="testRailURL" display_name="TestRail URL" datatype="hidden" default_value="http://TestRail.server.hostname/testrail"/>
+   <UserPref name="gadgetURL" display_name="Gadget Web Server URL" datatype="hidden" default_value="http://gadget.server.hostname"/>
    <Content type="html" view="default">
       <![CDATA[
 <div id="resultChart"></div>
 <div id="resultCaption" style="text-align: center; font-weight: bold"></div>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="__UP_testRailURL__/gadgets/testrail-plan-or-run-summary.js"></script>
+<script type="text/javascript" src="__UP_gadgetURL__/gadgets/testrail-plan-or-run-summary.js"></script>
 <p style='text-align: center; font-size: 11px; font-style:italic'>For any of the above links a TestRail login is required.</p>
 ]]>
 </Content>

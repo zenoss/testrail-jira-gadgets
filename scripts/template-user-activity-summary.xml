@@ -4,7 +4,7 @@
                 description="User activity summary from TestRail for a specific test plan"
                 author="Don Young"
                 author_email="dyoung@zenoss.com"
-                thumbnail="__UP_testRailURL__/images/testrail-user-activity-gadget-thumbnail.png"
+                thumbnail="__UP_gadgetURL__/images/testrail-user-activity-gadget-thumbnail.png"
                 height="330">
       <Require feature="dynamic-height" />
       <Require feature="settitle" />
@@ -22,12 +22,13 @@
       <EnumValue value="0" display_value="Unlimited"/>
    </UserPref>
    <UserPref name="testRailURL" display_name="TestRail URL" datatype="hidden" default_value="http://TestRail.server.hostname/testrail"/>
+   <UserPref name="gadgetURL" display_name="Gadget Web Server URL" datatype="hidden" default_value="http://gadget.server.hostname"/>
    <Content type="html" view="default">
       <![CDATA[
 <div id="userActivityChart"></div>
 <div id="userActivityCaption" style="text-align: center; font-weight: bold"></div>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="__UP_testRailURL__/gadgets/testrail-user-activity-summary.js"></script>
+<script type="text/javascript" src="__UP_gadgetURL__/gadgets/testrail-user-activity-summary.js"></script>
 <p style='text-align: center; font-size: 11px; font-style:italic'>For any of the above links a TestRail login is required.</p>
 ]]>
 </Content>
