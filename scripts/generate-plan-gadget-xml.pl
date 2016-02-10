@@ -9,6 +9,7 @@ use Config::Properties;
 use MIME::Base64;
 use JSON;
 use REST::Client;
+use HTML::Entities;
 
 # ****************************************************************************
 # Main
@@ -65,9 +66,9 @@ for my $project_node ( @$project_data ) {
          # Ignore completed plans
          if ($plan_node->{'is_completed'} == 0) {
             $projectPlanList[$arr_index][0] = $project_node->{'id'};
-            $projectPlanList[$arr_index][1] = $project_node->{'name'};
+            $projectPlanList[$arr_index][1] = encode_entities($project_node->{'name'});
             $projectPlanList[$arr_index][2] = $plan_node->{'id'};
-            $projectPlanList[$arr_index][3] = $plan_node->{'name'};
+            $projectPlanList[$arr_index][3] = encode_entities($plan_node->{'name'});
             $arr_index++;
          }
       }
