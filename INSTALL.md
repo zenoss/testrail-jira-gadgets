@@ -39,6 +39,7 @@ Perl and the following Perl modules are required. Please install them and any pr
 - MIME::Base64
 - JSON
 - REST::Client
+- HTML::Parser
 
 These files can reside anywhere on the gadget server, as long as they are in the same directory. The Perl files (.pl) should be set to executable.
 
