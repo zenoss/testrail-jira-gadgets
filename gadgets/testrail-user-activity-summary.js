@@ -122,6 +122,7 @@ function handleStatusResponse(obj) {
   for (var i = 0; i < responseLength; i++) {
     statusList[statusIndex] = new Array(4);
     statusList[statusIndex][0] = statusData[i].id;
+    statusIDList = statusIDList + "," + statusData[i].id; // Used for filtering on get_results_for_run
     if (statusData[i].is_system === false) {
       customStatusCount++;
       statusList[statusIndex][1] = "custom_status" + String(customStatusCount);
@@ -133,6 +134,7 @@ function handleStatusResponse(obj) {
 
     statusIndex++;
   }
+  statusIDList = statusIDList.slice(1); // Remove the leading comma
 
   // This should never happen if everything is configured correctly, but just in case
   if (statusIndex == 0) {
@@ -286,6 +288,7 @@ function handlePlanResponse(obj) {
     }
     runLength = runList.length;
     runIndex = 0;
+    offset = 0;
     if (runLength > 0) {
       fetchRunResults();
     } else {
@@ -322,7 +325,10 @@ function handlePlanResponse(obj) {
  */
 function fetchRunResults() {
   // Request URL for test plans
-  var caseAPI = testRailURL + "/index.php?/api/v2/get_results_for_run/" + runList[runIndex];
+  var caseAPI = testRailURL + "/index.php?/api/v2/get_results_for_run/" + runList[runIndex] + "&status_id=" + statusIDList + "&limit=250" + "&offset=" + offset;
+  if (numberOfDays > 0) {
+    caseAPI = caseAPI + "&created_after=" + startDate;
+  }
   var params = setTestRailHeaders();
 
   // Proxy the request through the container server
@@ -342,39 +348,47 @@ function handleResultsResponse(obj) {
     responseLength = jsondata.length;
   }
 
-
-  // Process returned JS object as an associative array
+  // Loop through the results and add up the totals
+  var numReturned = 0;
   for (var i = 0; i < responseLength; i++) {
+    numReturned++;
     var result = jsondata[i];
     var createdOn = timeConverter(result.created_on);
     var arrIndex = getUserIndex(result.created_by);
-    if ((arrIndex != -1) && (result.status_id != null)) { // User found and status is not null (status is null when the test is assigned)
-      if ((numberOfDays == 0) || (createdOn > startDate && createdOn <= endDate)) { // If unlimited or date is within range
-        var status = result.status_id;
-        userActivity[arrIndex][status] = userActivity[arrIndex][status] + 1; // Add one to this status for this user
-        userActivity[arrIndex][6+customStatusCount] = userActivity[arrIndex][6+customStatusCount] + 1; // Add one to the total for this user
-        total = total + 1;
-      }
+    if (arrIndex != -1) { // User found
+      var status = result.status_id;
+      userActivity[arrIndex][status] = userActivity[arrIndex][status] + 1; // Add one to this status for this user
+      userActivity[arrIndex][6+customStatusCount] = userActivity[arrIndex][6+customStatusCount] + 1; // Add one to the total for this user
+      total = total + 1;
     }
   }
-  runIndex++;
 
-  if (runIndex < runLength) {
+  // Check to see if we hit the pagination limit
+  if (numReturned >= 250) {
+    // We hit the pagination limit, so fetch results for the same run but bump up the offset
+    offset = offset + 250;
     fetchRunResults();
   } else {
-    var title = projectName + " User Activity";
-    if (numberOfDays > 0) {
-      title = title + ": Past " + numberOfDays + " day(s)";
-    }
-    if (total > 0) {
-      gadgets.window.setTitle(title);
-      renderUserActivity(userActivity);
-      msg.dismissMessage(loadMessage);
+    // We didn't hit the pagination limit, so let's process the next run
+    runIndex++;
+    offset = 0;
+    if (runIndex < runLength) {
+      fetchRunResults();
     } else {
-      gadgets.window.setTitle(title);
-      document.getElementById('userActivityCaption').innerHTML = "No user activity for the <a href=\"" + planURL + "\" target=\"_blank\">" + planName + "</a> test plan";
-      msg.dismissMessage(loadMessage);
-      gadgets.window.adjustHeight();
+      var title = projectName + " User Activity";
+      if (numberOfDays > 0) {
+        title = title + ": Past " + numberOfDays + " day(s)";
+      }
+      if (total > 0) {
+        gadgets.window.setTitle(title);
+        renderUserActivity(userActivity);
+        msg.dismissMessage(loadMessage);
+      } else {
+        gadgets.window.setTitle(title);
+        document.getElementById('userActivityCaption').innerHTML = "No user activity for the <a href=\"" + planURL + "\" target=\"_blank\">" + planName + "</a> test plan";
+        msg.dismissMessage(loadMessage);
+        gadgets.window.adjustHeight();
+      }
     }
   }
 }
@@ -478,23 +492,18 @@ var runIndex = 0;
 var runLength = 0;
 var statusList = new Array();
 var statusIndex = 0;
+var statusIDList = "";
+var offset = 0;
 var customStatusCount = 0;
 var total = 0;
 
-// Set the date range for the activity
+// Set the start date for the activity
 var today = new Date();
-var tempDate = new Date();
-
-var dd = today.getDate();
-var mm = today.getMonth()+1;
-var yyyy = today.getFullYear();
-if(dd<10) {dd='0'+dd}
-if(mm<10) {mm='0'+mm}
-var endDate = yyyy.toString() + mm.toString() + dd.toString();
 
 // If numberOfDays is 31 (1 month) get the actual number of days in the previous month
+var mm = today.getMonth();
+var yyyy = today.getFullYear();
 if (numberOfDays == 31) {
-  mm = mm - 1;
   if (mm == 0) {
     mm == 12;
     yyyy = yyyy - 1;
@@ -505,13 +514,7 @@ if (numberOfDays == 31) {
 // Use setTime to go back 24 hours (in milliseconds) * numberOfDays
 // Using setDate doesn't work across month/year boundaries
 var timeOffset = (24*60*60*1000) * numberOfDays;
-tempDate.setTime(today.getTime() - timeOffset);
-dd = tempDate.getDate();
-mm = tempDate.getMonth()+1;
-yyyy = tempDate.getFullYear();
-if(dd<10) {dd='0'+dd}
-if(mm<10) {mm='0'+mm}
-var startDate = yyyy.toString() + mm.toString() + dd.toString();
+var startDate = Math.floor((today.getTime() - timeOffset)/1000);
 
 // Fetch status info when the gadget loads
 gadgets.util.registerOnLoadHandler(fetchStatusList);

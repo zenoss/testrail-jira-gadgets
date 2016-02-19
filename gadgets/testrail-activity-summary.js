@@ -115,6 +115,7 @@ function handleStatusResponse(obj) {
   for (var i = 0; i < responseLength; i++) {
     statusList[statusIndex] = new Array(4);
     statusList[statusIndex][0] = statusData[i].id;
+    statusIDList = statusIDList + "," + statusData[i].id; // Used for filtering on get_results_for_run
     if (statusData[i].is_system === false) {
       customStatusCount++;
       statusList[statusIndex][1] = "custom_status" + String(customStatusCount);
@@ -126,6 +127,7 @@ function handleStatusResponse(obj) {
 
     statusIndex++;
   }
+  statusIDList = statusIDList.slice(1); // Remove the leading comma
 
   // This should never happen if everything is configured correctly, but just in case
   if (statusIndex == 0) {
@@ -134,7 +136,6 @@ function handleStatusResponse(obj) {
     gadgets.window.adjustHeight();
   } else {
 
-    var today = new Date();
     var tempDate = new Date();
 
     // Create an array with dates going back 7 days
@@ -241,6 +242,7 @@ function handlePlanResponse(obj) {
     }
     runLength = runList.length;
     runIndex = 0;
+    offset = 0;
     if (runLength > 0) {
       fetchRunResults();
     } else {
@@ -262,7 +264,7 @@ function handlePlanResponse(obj) {
  */
 function fetchRunResults() {
   // Request URL for test plans
-  var caseAPI = testRailURL + "/index.php?/api/v2/get_results_for_run/" + runList[runIndex];
+  var caseAPI = testRailURL + "/index.php?/api/v2/get_results_for_run/" + runList[runIndex] + "&status_id=" + statusIDList + "&limit=250" + "&offset=" + offset + "&created_after=" + startDate;
   var params = setTestRailHeaders();
 
   // Proxy the request through the container server
@@ -282,25 +284,35 @@ function handleResultsResponse(obj) {
     responseLength = jsondata.length;
   }
 
-
-  // Process returned JS object as an associative array
+  // Loop through the results and add up the totals
+  var numReturned = 0;
   for (var i = 0; i < responseLength; i++) {
+    numReturned++;
     var result = jsondata[i];
     var arrIndex = getDateIndex(timeConverter(result.created_on));
-    if ((arrIndex != -1) && (result.status_id != null)) {
+    if (arrIndex != -1) { // Date found
       var status = result.status_id;
       dailyActivity[arrIndex][status+1] = dailyActivity[arrIndex][status+1] + 1;
     }
   }
-  runIndex++;
 
-  if (runIndex < runLength) {
+  // Check to see if we hit the pagination limit
+  if (numReturned >= 250) {
+    // We hit the pagination limit, so fetch results for the same run but bump up the offset
+    offset = offset + 250;
     fetchRunResults();
   } else {
-    renderDailyActivity(dailyActivity);
-    msg.dismissMessage(loadMessage);
-    gadgets.window.setTitle(projectName + " Daily Activity");
-    gadgets.window.adjustHeight();
+    // We didn't hit the pagination limit, so let's process the next run
+    runIndex++;
+    offset = 0;
+    if (runIndex < runLength) {
+      fetchRunResults();
+    } else {
+      renderDailyActivity(dailyActivity);
+      msg.dismissMessage(loadMessage);
+      gadgets.window.setTitle(projectName + " Daily Activity");
+      gadgets.window.adjustHeight();
+    }
   }
 }
 
@@ -417,7 +429,12 @@ var runIndex = 0;
 var runLength = 0;
 var statusList = new Array();
 var statusIndex = 0;
+var statusIDList = "";
+var offset = 0;
 var customStatusCount = 0;
+
+var today = new Date();
+var startDate = Math.floor((today.getTime() - (24*60*60*1000*7))/1000); // Used to filter the results from get_results_for_run
 
 // Fetch status info when the gadget loads
 gadgets.util.registerOnLoadHandler(fetchStatusList);
