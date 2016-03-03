@@ -18,7 +18,7 @@
 The following JIRA gadget files can be used to display current TestRail data for projects, milestones, test plans, and test runs on JIRA dashboards.
 
 **NOTES**
-- TestRail 3.0 or later is required for most of the gadgets. [TestRail: Daily Activity Summary](#testrail-daily-activity-summary), [TestRail: Milestone Status](#testrail-milestone-status), and [TestRail: User Activity Summary](#testrail-user-activity-summary) require TestRail 4.0 or later.
+- TestRail 3.0 or later is required for all of the gadgets except [TestRail: Daily Activity Summary](#testrail-daily-activity-summary), [TestRail: Milestone Status](#testrail-milestone-status), and [TestRail: User Activity Summary](#testrail-user-activity-summary). Those gadgets require TestRail 4.0 or later.
 - The gadgets were tested on JIRA 6 and 7. No other versions were tested.
 - All of the charts (pie charts, stacked bar charts, etc.) use the Google charts API.
 - All active status (including custom ones) and their respective colors are pulled from the TestRail server to be used by the gadgets.
@@ -38,6 +38,9 @@ Displays the number of test results for each status added per day for the past s
 #### Settings
 - **(Project) Test Plan** - TestRail project and test plan
 
+#### Screenshot
+![Screenshot](screenshots/testrail-daily-activity-summary.png)
+
 ### TestRail: Milestone Status
 
 Displays the current test results for all tests on a milestone.
@@ -45,12 +48,18 @@ Displays the current test results for all tests on a milestone.
 #### Settings
 - **(Project) Milestone** - TestRail project and milestone
 
+#### Screenshot
+![Screenshot](screenshots/testrail-milestone-status.png)
+
 ### TestRail: Project Status
 
 Displays the current test results for all test plans on a specific project.
 
 #### Settings
 - **Project** - TestRail project
+
+#### Screenshot
+![Screenshot](screenshots/testrail-project-status.png)
 
 ### TestRail: Release Status
 
@@ -60,6 +69,9 @@ Displays the current test results for all test plans and/or test runs that make 
 - **Release Name** - name of the release that will be displayed in the chart
 - **Test Plans/Runs** - one or more test plans or runs that make up the release. Enter the ID of the plan/run pre-pended with **P** for a test plan or **R** for a test run. Click **Add** to add the plan or run to the list. Click the **(X)** next to the test plan/run to delete that test plan/run from the list.
 
+#### Screenshot
+![Screenshot](screenshots/testrail-release-status.png)
+
 ### TestRail: Test Plan Status
 
 Displays the current test results for a specific test plan.
@@ -67,12 +79,18 @@ Displays the current test results for a specific test plan.
 #### Settings
 - **(Project) Test Plan** - TestRail project and test plan
 
+#### Screenshot
+![Screenshot](screenshots/testrail-test-plan-status.png)
+
 ### TestRail: Test Run Status
 
 Displays the current test results for a specific test run.
 
 #### Settings
 - **(Project) Test Run** - TestRail project and test run
+
+#### Screenshot
+![Screenshot](screenshots/testrail-test-run-status.png)
 
 ### TestRail: Testing Status
 
@@ -82,6 +100,9 @@ Displays the current test results for all test plans across all projects.
 
 None
 
+#### Screenshot
+![Screenshot](screenshots/testrail-testing-status.png)
+
 ### TestRail: User Activity Summary
 
 Displays the number of test results for each status added per user for a specified number of days on a specific test plan.
@@ -89,3 +110,6 @@ Displays the number of test results for each status added per user for a specifi
 #### Settings
 - **(Project) Test Plan** - TestRail project and test plan
 - **Number of Days** - Number of days of activity to display (Unlimited will display all activity)
+
+#### Screenshot
+![Screenshot](screenshots/testrail-user-activity-summary.png)
