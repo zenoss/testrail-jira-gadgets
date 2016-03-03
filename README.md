@@ -53,7 +53,7 @@ Displays the current test results for all tests on a milestone.
 
 ### TestRail: Project Status
 
-Displays the current test results for all test plans on a specific project.
+Displays the current test results for all active test plans on a specific project.
 
 #### Settings
 - **Project** - TestRail project
@@ -94,7 +94,7 @@ Displays the current test results for a specific test run.
 
 ### TestRail: Testing Status
 
-Displays the current test results for all test plans across all projects.
+Displays the current test results for all active test plans across all projects.
 
 #### Settings
 
