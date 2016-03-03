@@ -12,7 +12,7 @@
 
 The gadget files should be installed on a web server in which you have administrator access.  This web server (herein referred to as the gadget server) should be accessible via HTTP/HTTPS from your JIRA server, and it should be able to access your TestRail server via HTTP/HTTPS. If your TestRail server is installed on-site, it can also serve as the gadget server.
 
-**NOTE:** The instructions assume that the root directory for the HTML files on the gadget server is `/var/www/html` on the server.
+**NOTE:** The instructions assume that the root directory for the HTML files on the gadget server is `/var/www/html`.
 
 ### XML Generation Scripts
 
