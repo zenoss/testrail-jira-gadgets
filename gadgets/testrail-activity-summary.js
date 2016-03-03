@@ -411,16 +411,7 @@ edit.style.display = 'none';
 
 var msg = new gadgets.MiniMessage();  // Create minimessage factory
 var loadMessage = msg.createStaticMessage("loading...");  // Show a small loading message to the user
-
 var dimensions = gadgets.window.getViewportDimensions();
-
-// Get configured user prefs
-var prefs = new gadgets.Prefs();
-var projectPlanIDList = prefs.getArray("projectPlanIDList");
-var projectID = projectPlanIDList[0];
-var planID = projectPlanIDList[1];
-var testRailURL = prefs.getString("testRailURL");
-google.load('visualization', '1.1', {'packages':['corechart']});
 
 var planName, planURL, projectName, projectURL;
 var dailyActivity = new Array();
@@ -435,6 +426,15 @@ var customStatusCount = 0;
 
 var today = new Date();
 var startDate = Math.floor((today.getTime() - (24*60*60*1000*7))/1000); // Used to filter the results from get_results_for_run
+
+// Get configured user prefs
+var prefs = new gadgets.Prefs();
+var projectPlanIDList = prefs.getArray("projectPlanIDList");
+var projectID = projectPlanIDList[0];
+var planID = projectPlanIDList[1];
+var testRailURL = prefs.getString("testRailURL");
+
+google.charts.load('current', {packages: ['corechart', 'line']});
 
 // Fetch status info when the gadget loads
 gadgets.util.registerOnLoadHandler(fetchStatusList);

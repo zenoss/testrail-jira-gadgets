@@ -145,7 +145,7 @@ function handleProjectResponse(obj) {
   } else {
     renderTestResults(testResults);
     msg.dismissMessage(loadMessage);
-    gadgets.window.setTitle("All Test Results");
+    gadgets.window.setTitle("All Active Test Results");
     gadgets.window.adjustHeight();
   }
 }
@@ -255,7 +255,7 @@ function handlePlanResponse(obj) {
     testResults.sort(sortByProjectByName);
     renderTestResults(testResults);
     msg.dismissMessage(loadMessage);
-    gadgets.window.setTitle("All Test Results");
+    gadgets.window.setTitle("All Active Test Results");
     gadgets.window.adjustHeight();
   }
 }
@@ -362,9 +362,9 @@ function renderTestResults(testResults) {
     // Instantiate and draw our chart, passing in the options.
     var myProjectChart = new google.visualization.BarChart(document.getElementById('projectsAllChart'));
     myProjectChart.draw(data, options);
-    document.getElementById('projectsAllCaption').innerHTML = "All <a href='" + testRailURL + "' target='_blank'>TestRail</a> test results";
+    document.getElementById('projectsAllCaption').innerHTML = "All active <a href='" + testRailURL + "' target='_blank'>TestRail</a> test results";
   } else {
-    document.getElementById('projectsAllCaption').innerHTML = "No active test runs found";
+    document.getElementById('projectsAllCaption').innerHTML = "No active test plans or test runs found";
   }
   gadgets.window.adjustHeight();
 }
@@ -394,7 +394,8 @@ var customStatusCount = 0;
 var prefs = new gadgets.Prefs();
 var showCompleted = prefs.getBool("showCompleted");
 var testRailURL = prefs.getString("testRailURL");
-google.load('visualization', '1.1', {'packages':['corechart']});
+
+google.charts.load('current', {packages: ['corechart', 'bar']});
 
 // Fetch status info when the gadget loads
 gadgets.util.registerOnLoadHandler(fetchStatusList);

@@ -267,8 +267,8 @@ edit.style.display = 'none';
 
 var msg = new gadgets.MiniMessage();  // Create minimessage factory
 var loadMessage = msg.createStaticMessage("loading...");  // Show a small loading message to the user
-
 var dimensions = gadgets.window.getViewportDimensions();
+
 var projectName = "";
 var statusList = new Array();
 var statusIndex = 0;
@@ -282,7 +282,8 @@ var projectID = projectResultIDList[0];
 var resultID = projectResultIDList[1];
 var showCompleted = prefs.getBool("showCompleted");
 var testRailURL = prefs.getString("testRailURL");
-google.load('visualization', '1.1', {'packages':['corechart']});
+
+google.charts.load('current', {'packages':['corechart']});
 
 // Fetch status info when the gadget loads
 gadgets.util.registerOnLoadHandler(fetchStatusList);

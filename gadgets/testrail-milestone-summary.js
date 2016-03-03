@@ -361,8 +361,8 @@ edit.style.display = 'none';
 
 var msg = new gadgets.MiniMessage();  // Create minimessage factory
 var loadMessage = msg.createStaticMessage("loading...");  // Show a small loading message to the user
-
 var dimensions = gadgets.window.getViewportDimensions();
+
 var projectName = "";
 var milestoneName = "";
 var milestoneURL = "";
@@ -378,7 +378,8 @@ var projectMilestoneIDList = prefs.getArray("projectMilestoneIDList");
 var projectID = projectMilestoneIDList[0];
 var milestoneID = projectMilestoneIDList[1];
 var testRailURL = prefs.getString("testRailURL");
-google.load('visualization', '1.1', {'packages':['corechart']});
+
+google.charts.load('current', {'packages':['corechart']});
 
 // Fetch status info when the gadget loads
 gadgets.util.registerOnLoadHandler(fetchStatusList);

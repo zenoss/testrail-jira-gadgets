@@ -376,7 +376,7 @@ var projectID = prefs.getInt("projectID");
 var showCompleted = prefs.getBool("showCompleted");
 var testRailURL = prefs.getString("testRailURL");
 
-google.load('visualization', '1.1', {'packages':['corechart']});
+google.charts.load('current', {packages: ['corechart', 'bar']});
 
 // Fetch status info when the gadget loads
 gadgets.util.registerOnLoadHandler(fetchStatusList);

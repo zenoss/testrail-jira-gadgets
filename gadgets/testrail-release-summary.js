@@ -323,10 +323,10 @@ edit.style.display = 'none';
 
 var msg = new gadgets.MiniMessage();  // Create minimessage factory
 var loadMessage = msg.createStaticMessage("loading...");  // Show a small loading message to the user
-var testResults = new Array();
-var releaseList = new Array();
 var dimensions = gadgets.window.getViewportDimensions();
 
+var testResults = new Array();
+var releaseList = new Array();
 var statusList = new Array();
 var statusIndex = 0;
 var customStatusCount = 0;
@@ -336,8 +336,6 @@ var prefs = new gadgets.Prefs();
 var releaseName = prefs.getString("releaseName");
 var shortReleaseList = prefs.getArray("releaseList");
 var testRailURL = prefs.getString("testRailURL");
-google.load('visualization', '1.1', {'packages':['corechart']});
-
 var rlIndex = 0;
 var rlLength = shortReleaseList.length;
 for (var i = 0; i < rlLength; i++) {
@@ -346,6 +344,8 @@ for (var i = 0; i < rlLength; i++) {
   releaseList[i][1] = "";  // placeholder for plan/run name
   releaseList[i][2] = "";  // placeholder for plan/run URL
 }
+
+google.charts.load('current', {'packages':['corechart']});
 
 // Fetch status info when the gadget loads
 gadgets.util.registerOnLoadHandler(fetchStatusList);

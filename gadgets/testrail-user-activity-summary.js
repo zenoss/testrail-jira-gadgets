@@ -472,17 +472,7 @@ edit.style.display = 'none';
 
 var msg = new gadgets.MiniMessage();  // Create minimessage factory
 var loadMessage = msg.createStaticMessage("loading...");  // Show a small loading message to the user
-
 var dimensions = gadgets.window.getViewportDimensions();
-
-// Get configured user prefs
-var prefs = new gadgets.Prefs();
-var projectPlanIDList = prefs.getArray("projectPlanIDList");
-var projectID = projectPlanIDList[0];
-var planID = projectPlanIDList[1];
-var numberOfDays = prefs.getInt("numberOfDays");
-var testRailURL = prefs.getString("testRailURL");
-google.load('visualization', '1.1', {'packages':['table']});
 
 var planName, planURL, projectName, projectURL;
 var userActivity = new Array();
@@ -496,10 +486,14 @@ var statusIDList = "";
 var offset = 0;
 var customStatusCount = 0;
 var total = 0;
-
-// Set the start date for the activity
 var today = new Date();
 
+// Get configured user prefs
+var prefs = new gadgets.Prefs();
+var projectPlanIDList = prefs.getArray("projectPlanIDList");
+var projectID = projectPlanIDList[0];
+var planID = projectPlanIDList[1];
+var numberOfDays = prefs.getInt("numberOfDays");
 // If numberOfDays is 31 (1 month) get the actual number of days in the previous month
 var mm = today.getMonth();
 var yyyy = today.getFullYear();
@@ -510,11 +504,13 @@ if (numberOfDays == 31) {
   }
   numberOfDays = daysInMonth(mm, yyyy);
 }
-
 // Use setTime to go back 24 hours (in milliseconds) * numberOfDays
 // Using setDate doesn't work across month/year boundaries
 var timeOffset = (24*60*60*1000) * numberOfDays;
 var startDate = Math.floor((today.getTime() - timeOffset)/1000);
+var testRailURL = prefs.getString("testRailURL");
+
+google.charts.load('current', {'packages':['table']});
 
 // Fetch status info when the gadget loads
 gadgets.util.registerOnLoadHandler(fetchStatusList);
