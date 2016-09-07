@@ -265,6 +265,7 @@ function handlePlanResponse(obj) {
   if (total === 0) {
     if ((milestoneName !== "") && (milestoneName != undefined)) {
       document.getElementById('milestoneCaption').innerHTML = "No tests have been run for the " + projectName + " <a href=\"" + milestoneURL + "\" target=\"_blank\">" + milestoneName + "</a> milestone";
+      document.getElementById('disclaimer').innerHTML = "For any of the above links a TestRail login is required.";
     } else {
       document.getElementById('milestoneCaption').innerHTML = "Milestone not found";
     }
