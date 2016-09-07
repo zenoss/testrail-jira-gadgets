@@ -363,6 +363,7 @@ function renderTestResults(testResults) {
     var myProjectChart = new google.visualization.BarChart(document.getElementById('projectsAllChart'));
     myProjectChart.draw(data, options);
     document.getElementById('projectsAllCaption').innerHTML = "All active <a href='" + testRailURL + "' target='_blank'>TestRail</a> test results";
+    document.getElementById('disclaimer').innerHTML = "For any of the above links a TestRail login is required.";
   } else {
     document.getElementById('projectsAllCaption').innerHTML = "No active test plans or test runs found";
   }

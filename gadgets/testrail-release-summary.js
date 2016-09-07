@@ -306,6 +306,7 @@ function renderTestResults(testResults) {
     }
     caption = caption + "</div>";
     document.getElementById('releaseCaption').innerHTML = caption;
+    document.getElementById('disclaimer').innerHTML = "For any of the above links a TestRail login is required.";
   } else {
     document.getElementById('releaseCaption').innerHTML = "No results to display";
   }

@@ -253,6 +253,7 @@ function renderTestResults(jsondata) {
   var myResultChart = new google.visualization.PieChart(document.getElementById('resultChart'));
   myResultChart.draw(data, options);
   document.getElementById('resultCaption').innerHTML = "Testing results for the " + projectName + " <a href=\"" + jsondata.url + "\" target=\"_blank\">" + jsondata.name + "</a> test " + resultType;
+  document.getElementById('disclaimer').innerHTML = "For any of the above links a TestRail login is required.";
   gadgets.window.adjustHeight();
 }
 

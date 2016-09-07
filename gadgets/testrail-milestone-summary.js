@@ -347,6 +347,7 @@ function renderTestResults() {
   var myMilestoneChart = new google.visualization.PieChart(document.getElementById('milestoneChart'));
   myMilestoneChart.draw(data, options);
   document.getElementById('milestoneCaption').innerHTML = "Testing results for the " + projectName + " <a href=\"" + milestoneURL + "\" target=\"_blank\">" + milestoneName + "</a> milestone";
+  document.getElementById('disclaimer').innerHTML = "For any of the above links a TestRail login is required.";
   gadgets.window.adjustHeight();
 }
 
