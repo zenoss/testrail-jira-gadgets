@@ -54,14 +54,14 @@ for my $project_node ( @$project_data ) {
    # Ignore completed projects
    if ($project_node->{'is_completed'} == 0) {
       $rest->GET("/index.php?/api/v2/get_milestones/" . $project_node->{'id'}, $headers );
-      my $milestone_data = decode_json( $rest->responseContent() );
+      my $milestones_data = decode_json( $rest->responseContent() );
       if ($rest->responseCode() != 200) {
-         printf("\nAPI call returned %s\n  Error message: %s\n", $rest->responseCode(), $milestone_data->{error});
+         printf("\nAPI call returned %s\n  Error message: %s\n", $rest->responseCode(), $milestones_data->{error});
          exit(1);
       }
 
       # Loop through all of the milestones
-      for my $milestone_node ( @$milestone_data ) {
+      for my $milestone_node ( @$milestones_data ) {
 
          # Ignore completed milestones
          if ($milestone_node->{'is_completed'} == 0) {
@@ -70,6 +70,26 @@ for my $project_node ( @$project_data ) {
             $projectMilestoneList[$arr_index][2] = $milestone_node->{'id'};
             $projectMilestoneList[$arr_index][3] = encode_entities($milestone_node->{'name'});
             $arr_index++;
+
+            # Get the milestone info to loop through any sub-milestones
+            $rest->GET("/index.php?/api/v2/get_milestone/" . $milestone_node->{'id'}, $headers );
+            my $milestone_data = decode_json( $rest->responseContent() );
+            if ($rest->responseCode() != 200) {
+               printf("\nAPI call returned %s\n  Error message: %s\n", $rest->responseCode(), $milestone_data->{error});
+               exit(1);
+            }
+
+            # Loop through any sub-milestones
+            my $milestone_subnode_data = $milestone_data->{'milestones'};
+            for my $milestone_subnode ( @$milestone_subnode_data ) {
+               if ($milestone_subnode->{'is_completed'} == 0) {
+                  $projectMilestoneList[$arr_index][0] = $project_node->{'id'};
+                  $projectMilestoneList[$arr_index][1] = encode_entities($project_node->{'name'});
+                  $projectMilestoneList[$arr_index][2] = $milestone_subnode->{'id'};
+                  $projectMilestoneList[$arr_index][3] = encode_entities($milestone_node->{'name'} . "\\" . $milestone_subnode->{'name'});
+                  $arr_index++;
+               }
+            }
          }
       }
    }
