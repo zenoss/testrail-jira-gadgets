@@ -303,6 +303,7 @@ function handlePlanResponse(obj) {
       } else {
         gadgets.window.setTitle(title);
         document.getElementById('userActivityCaption').innerHTML = "No user activity for the <a href=\"" + planURL + "\" target=\"_blank\">" + planName + "</a> test plan";
+        document.getElementById('disclaimer').innerHTML = "For any of the above links a TestRail login is required.";
         msg.dismissMessage(loadMessage);
         gadgets.window.adjustHeight();
       }
@@ -386,6 +387,7 @@ function handleResultsResponse(obj) {
       } else {
         gadgets.window.setTitle(title);
         document.getElementById('userActivityCaption').innerHTML = "No user activity for the <a href=\"" + planURL + "\" target=\"_blank\">" + planName + "</a> test plan";
+        document.getElementById('disclaimer').innerHTML = "For any of the above links a TestRail login is required.";
         msg.dismissMessage(loadMessage);
         gadgets.window.adjustHeight();
       }
@@ -458,6 +460,7 @@ function renderUserActivity(userActivity) {
   var myActivityChart = new google.visualization.Table(document.getElementById('userActivityChart'));
   myActivityChart.draw(data, options);
   document.getElementById('userActivityCaption').innerHTML = "User activity for the <a href=\"" + planURL + "\" target=\"_blank\">" + planName + "</a> test plan";
+  document.getElementById('disclaimer').innerHTML = "For any of the above links a TestRail login is required.";
   gadgets.window.adjustHeight();
 }
 

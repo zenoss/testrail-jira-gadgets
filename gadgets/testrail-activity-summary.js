@@ -397,6 +397,7 @@ function renderDailyActivity(dailyActivity) {
   var myActivityChart = new google.visualization.LineChart(document.getElementById('activityChart'));
   myActivityChart.draw(data, options);
   document.getElementById('activityCaption').innerHTML = "Daily activity for the <a href=\"" + planURL + "\" target=\"_blank\">" + planName + "</a> test plan";
+  document.getElementById('disclaimer').innerHTML = "For any of the above links a TestRail login is required.";
   gadgets.window.adjustHeight();
 }
 

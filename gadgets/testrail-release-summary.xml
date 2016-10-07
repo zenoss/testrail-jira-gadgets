@@ -23,7 +23,7 @@
 <div id="releaseCaption" style="text-align: center; font-weight: bold"></div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="__UP_gadgetURL__/gadgets/testrail-release-summary.js"></script>
-<p style='text-align: center; font-size: 11px; font-style:italic'>For any of the above links a TestRail login is required.</p>
+<p id="disclaimer" style='text-align: center; font-size: 11px; font-style:italic'></p>
 ]]>
 </Content>
 </Module>
