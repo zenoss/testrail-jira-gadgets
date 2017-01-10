@@ -31,14 +31,12 @@ These files can reside anywhere on the gadget server, as long as they are in the
 
 - generate-gadget-xml.properties
 - generate-activity-gadget-xml.pl
-- generate-automation-gadget-xml.pl
 - generate-milestone-gadget-xml.pl
 - generate-run-gadget-xml.pl
 - generate-plan-gadget-xml.pl
 - generate-project-gadget-xml.pl
 - generate-user-activity-gadget-xml.pl
 - template-activity-summary.xml
-- template-automation-summary.xml
 - template-milestone-summary.xml
 - template-plan-summary.xml
 - template-project-summary.xml
@@ -49,7 +47,6 @@ The scripts can be run manually at any time, but a cron job should be setup to r
 
 ```
 00 * * * * cd /root;./generate-activity-gadget-xml.pl
-00 * * * * cd /root;./generate-automation-gadget-xml.pl
 00 * * * * cd /root;./generate-milestone-gadget-xml.pl
 00 * * * * cd /root;./generate-plan-gadget-xml.pl
 00 * * * * cd /root;./generate-project-gadget-xml.pl
@@ -62,7 +59,6 @@ The scripts can be run manually at any time, but a cron job should be setup to r
 The files in the `images` directory should be placed in `/var/www/html/images`
 
 - testrail-activity-gadget-thumbnail.png
-- testrail-automation-gadget-thumbnail.png
 - testrail-milestone-gadget-thumbnail.png
 - testrail-plan-gadget-thumbnail.png
 - testrail-project-gadget-thumbnail.png
@@ -78,7 +74,6 @@ Create the gadgets directory under the root directory for the HTML files (defaul
 - testrail-projects-all-summary.xml
 - testrail-release-summary.xml
 - testrail-activity-summary.js
-- testrail-automation-summary.js
 - testrail-milestone-summary.js
 - testrail-plan-summary.js
 - testrail-project-summary.js
@@ -105,7 +100,6 @@ Update the following files for your environment:
 Once the gadget files have been installed onto the gadget server and the scripts to generate the dynamic XML have been run successfully a JIRA administrator should add the following gadgets to the gadget directory (substituting your gadget server hostname):
 
 -  http://_gadget.server.hostname_/gadgets/testrail-activity-summary.xml
--  http://_gadget.server.hostname_/gadgets/testrail-automation-summary.xml
 -  http://_gadget.server.hostname_/gadgets/testrail-milestone-summary.xml
 -  http://_gadget.server.hostname_/gadgets/testrail-plan-summary.xml
 -  http://_gadget.server.hostname_/gadgets/testrail-projects-all-summary.xml
