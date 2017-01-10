@@ -143,7 +143,7 @@ function handleProjectResponse(obj) {
   if (plLength > 0) {
     fetchRunResults();
   } else {
-    renderTestResults(testResults);
+    google.charts.setOnLoadCallback(renderTestResults);
     msg.dismissMessage(loadMessage);
     gadgets.window.setTitle("All Active Test Results");
     gadgets.window.adjustHeight();
@@ -253,7 +253,7 @@ function handlePlanResponse(obj) {
     fetchRunResults();
   } else {
     testResults.sort(sortByProjectByName);
-    renderTestResults(testResults);
+    google.charts.setOnLoadCallback(renderTestResults);
     msg.dismissMessage(loadMessage);
     gadgets.window.setTitle("All Active Test Results");
     gadgets.window.adjustHeight();
@@ -281,7 +281,7 @@ function sortByProjectByName(a, b) {
 /**
  * Create the HTML output and display it
  */
-function renderTestResults(testResults) {
+function renderTestResults() {
 
   var trLength = testResults.length;
   if (trLength > 0 ) {

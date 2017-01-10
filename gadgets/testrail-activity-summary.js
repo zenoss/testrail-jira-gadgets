@@ -246,7 +246,7 @@ function handlePlanResponse(obj) {
     if (runLength > 0) {
       fetchRunResults();
     } else {
-      renderDailyActivity(dailyActivity);
+      google.charts.setOnLoadCallback(renderDailyActivity);
       msg.dismissMessage(loadMessage);
       gadgets.window.setTitle("Daily Activity");
       gadgets.window.adjustHeight();
@@ -308,7 +308,7 @@ function handleResultsResponse(obj) {
     if (runIndex < runLength) {
       fetchRunResults();
     } else {
-      renderDailyActivity(dailyActivity);
+      google.charts.setOnLoadCallback(renderDailyActivity);
       msg.dismissMessage(loadMessage);
       gadgets.window.setTitle(projectName + " Daily Activity");
       gadgets.window.adjustHeight();
@@ -320,7 +320,7 @@ function handleResultsResponse(obj) {
 /**
  * Create the HTML output and display it
  */
-function renderDailyActivity(dailyActivity) {
+function renderDailyActivity() {
 
   // Get the labels for each of the system statuses (except untested)
   var passed_label = getStatusLabel("passed");
