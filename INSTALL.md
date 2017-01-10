@@ -6,6 +6,7 @@
   - [Gadget XML and JavaScript Files](#gadget-xml-and-javascript-files)
 - [Configuration](#configuration)
 - [Adding the Gadgets to JIRA's Gadget Directory](#adding-the-gadgets-to-jiras-gadget-directory)
+- [Updating JIRA's Whitelist](#updating-jiras-whitelist)
 - [Adding the Gadgets to a JIRA Dashboard](#adding-the-gadgets-to-a-jira-dashboard)
 
 ## Installation onto Gadget Server
@@ -111,6 +112,14 @@ Once the gadget files have been installed onto the gadget server and the scripts
 
 1. If the JIRA server is using HTTPS then the gadget server must be as well. Also, it should be using a signed certificate.
 2. The JIRA server must be able to connect to your gadget server via HTTP/HTTPS.
+
+## Updating JIRA's Whitelist
+
+By default JIRA will restrict incoming and outgoing connections and content unless a host is added to its whitelist. The gadget server is automatically added to the whitelist when you add the gadgets to JIRA's gadget directory; however, if TestRail is on a separate server then that host will need to be added to the whitelist by a JIRA administrator. The following values should be used when adding the TestRail server to JIRA's whitelist (substituting your TestRail server's hostname):
+
+- **Expression** - http://_TestRail.server.hostname_/* <br>(or https://_TestRail.server.hostname_/* if your server is using HTTPS)
+- **Type** - Wildcard expression
+- **Allow Incoming** - Unchecked
 
 ## Adding the Gadgets to a JIRA Dashboard
 
