@@ -112,7 +112,7 @@ function handleStatusResponse(obj) {
 
       fetchTestResults();
     } else {
-      renderTestResults(testResults);
+      google.charts.setOnLoadCallback(renderTestResults);
     }
   }
 }
@@ -129,7 +129,7 @@ function fetchTestResults() {
       fetchRunResults()
     }
   } else {
-    renderTestResults(testResults);
+    google.charts.setOnLoadCallback(renderTestResults);
   }
 }
 
@@ -219,7 +219,7 @@ function handleRunResponse(obj) {
 /**
  * Create the HTML output and display it
  */
-function renderTestResults(testResults) {
+function renderTestResults() {
 
   msg.dismissMessage(loadMessage);
   if (testResults.length > 0) {

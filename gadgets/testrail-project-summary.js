@@ -236,7 +236,7 @@ function handlePlanResponse(obj) {
   }
 
   testResults.sort(sortByName);
-  renderTestResults(testResults);
+  google.charts.setOnLoadCallback(renderTestResults);
   msg.dismissMessage(loadMessage);
   var title = "";
   if ((projectName !== "") && (projectName != undefined)) {
@@ -262,7 +262,7 @@ function sortByName(a, b) {
 /**
  * Create the HTML output and display it
  */
-function renderTestResults(testResults) {
+function renderTestResults() {
 
   var trLength = testResults.length;
   if (trLength > 0 ) {

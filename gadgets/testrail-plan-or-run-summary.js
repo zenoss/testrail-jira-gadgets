@@ -170,11 +170,11 @@ function fetchRunResults() {
  */
 function handlePlanOrRunResponse(obj) {
   // obj.data contains a JSON element
-  var jsondata = gadgets.json.parse(obj.data);
+  responseData = gadgets.json.parse(obj.data);
 
   if (obj.rc == 200) {
-    renderTestResults(jsondata);
-    gadgets.window.setTitle(projectName + ": " + jsondata.name + " test " + resultType);
+    google.charts.setOnLoadCallback(renderTestResults);
+    gadgets.window.setTitle(projectName + ": " + responseData.name + " test " + resultType);
   } else {
     document.getElementById('resultCaption').innerHTML = "Test " + resultType + " not found";
   }
@@ -186,7 +186,7 @@ function handlePlanOrRunResponse(obj) {
 /**
  * Create the HTML output and display it
  */
-function renderTestResults(jsondata) {
+function renderTestResults() {
 
   // Create the data table.
   var data = new google.visualization.DataTable();
@@ -201,16 +201,16 @@ function renderTestResults(jsondata) {
   var failed_label = getStatusLabel("failed");
 
   data.addRows([
-    [passed_label, jsondata.passed_count],
-    [blocked_label, jsondata.blocked_count],
-    [untested_label, jsondata.untested_count],
-    [retest_label, jsondata.retest_count],
-    [failed_label, jsondata.failed_count]
+    [passed_label, responseData.passed_count],
+    [blocked_label, responseData.blocked_count],
+    [untested_label, responseData.untested_count],
+    [retest_label, responseData.retest_count],
+    [failed_label, responseData.failed_count]
   ]);
 
   // Add the rows for any custom statuses
   for (var i = 1; i <= customStatusCount; i++) {
-    data.addRow([getStatusLabel("custom_status" + String(i)),eval("jsondata.custom_status" + i + "_count")]);
+    data.addRow([getStatusLabel("custom_status" + String(i)),eval("responseData.custom_status" + i + "_count")]);
   }
 
   var chartWidth = gadgets.window.getViewportDimensions().width;
@@ -252,7 +252,7 @@ function renderTestResults(jsondata) {
   // Instantiate and draw our chart, passing in the options.
   var myResultChart = new google.visualization.PieChart(document.getElementById('resultChart'));
   myResultChart.draw(data, options);
-  document.getElementById('resultCaption').innerHTML = "Testing results for the " + projectName + " <a href=\"" + jsondata.url + "\" target=\"_blank\">" + jsondata.name + "</a> test " + resultType;
+  document.getElementById('resultCaption').innerHTML = "Testing results for the " + projectName + " <a href=\"" + responseData.url + "\" target=\"_blank\">" + responseData.name + "</a> test " + resultType;
   document.getElementById('disclaimer').innerHTML = "For any of the above links a TestRail login is required.";
   gadgets.window.adjustHeight();
 }
@@ -274,6 +274,7 @@ var projectName = "";
 var statusList = new Array();
 var statusIndex = 0;
 var customStatusCount = 0;
+var responseData = {};
 
 // Get configured user prefs
 var prefs = new gadgets.Prefs();

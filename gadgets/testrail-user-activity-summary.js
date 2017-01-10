@@ -298,7 +298,7 @@ function handlePlanResponse(obj) {
       }
       if (total > 0) {
         gadgets.window.setTitle(title);
-        renderUserActivity(userActivity);
+        google.charts.setOnLoadCallback(renderUserActivity);
         msg.dismissMessage(loadMessage);
       } else {
         gadgets.window.setTitle(title);
@@ -382,7 +382,7 @@ function handleResultsResponse(obj) {
       }
       if (total > 0) {
         gadgets.window.setTitle(title);
-        renderUserActivity(userActivity);
+        google.charts.setOnLoadCallback(renderUserActivity);
         msg.dismissMessage(loadMessage);
       } else {
         gadgets.window.setTitle(title);
@@ -399,7 +399,7 @@ function handleResultsResponse(obj) {
 /**
  * Create the HTML output and display it
  */
-function renderUserActivity(userActivity) {
+function renderUserActivity() {
 
   // Get the labels for each of the system statuses (except untested)
   var passed_label = getStatusLabel("passed");

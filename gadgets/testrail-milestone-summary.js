@@ -270,7 +270,7 @@ function handlePlanResponse(obj) {
       document.getElementById('milestoneCaption').innerHTML = "Milestone not found";
     }
   } else {
-    renderTestResults();
+    google.charts.setOnLoadCallback(renderTestResults);
     gadgets.window.setTitle(title);
   }
   msg.dismissMessage(loadMessage);
