@@ -470,8 +470,10 @@ function renderUserActivity() {
 
 // Fix a JIRA bug that causes the Edit button to not work
 var edit = window.parent.document.getElementById(window.frameElement.id + '-edit');
-edit.classList.remove('hidden');
-edit.style.display = 'none';
+if (edit) {  // Ensure element was found
+    edit.classList.remove('hidden');
+    edit.style.display = 'none';
+}
 
 var msg = new gadgets.MiniMessage();  // Create minimessage factory
 var loadMessage = msg.createStaticMessage("loading...");  // Show a small loading message to the user
