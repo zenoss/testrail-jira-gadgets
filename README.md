@@ -21,7 +21,7 @@ The following JIRA gadget files can be used to display current TestRail data for
 - TestRail 3.0 or later is required for all of the gadgets except [TestRail: Daily Activity Summary](#testrail-daily-activity-summary), [TestRail: Milestone Status](#testrail-milestone-status), and [TestRail: User Activity Summary](#testrail-user-activity-summary). Those gadgets require TestRail 4.0 or later.
 - The gadgets were tested on JIRA 6 and 7. No other versions were tested.
 - All of the charts (pie charts, stacked bar charts, etc.) use the Google charts API.
-- All active status (including custom ones) and their respective colors are pulled from the TestRail server to be used by the gadgets.
+- All active statuses (including custom ones) and their respective colors are pulled from the TestRail server to be used by the gadgets.
 - Since the gadgets are standalone rather than a plugin, installation and configuration are manual. (See [INSTALL.md](INSTALL.md) for installation instructions.)
 - The standalone gadgets don't do dynamic dropdowns, so Perl scripts were created to periodically update the XML files with the current active projects, test plans, etc.
 - The gadgets do not automatically refresh; refresh occurs any time the browser page is refreshed. Also, if the browser is resized or the dashboard layout changed then the browser must be refreshed to resize the gadget.
