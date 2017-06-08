@@ -94,6 +94,30 @@ function getStatusColor(search_name) {
 
 
 /**
+ * Determines the font color based on the background color
+ */
+function determineFontColor(bgcolor_rgb){
+  var font_color_rgb = "#000000";
+
+  if (bgcolor_rgb[0] == "#") {
+    bgcolor_rgb = bgcolor_rgb.substring(1);
+  }
+
+  r = parseInt(bgcolor_rgb.substring(0,2),16);
+  g = parseInt(bgcolor_rgb.substring(2,4),16);
+  b = parseInt(bgcolor_rgb.substring(4),16);
+
+  if (1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5) {
+    font_color_rgb = "#000000";
+  } else {
+    font_color_rgb = "#FFFFFF";
+  }
+
+  return(font_color_rgb);
+}
+
+
+/**
  * Fetches information about the TestRail statuses
  */
 function fetchStatusList() {
@@ -130,7 +154,7 @@ function handleStatusResponse(obj) {
       statusList[statusIndex][1] = statusData[i].name;
     }
     statusList[statusIndex][2] = statusData[i].label;
-    statusList[statusIndex][3] = statusData[i].color_medium;
+    statusList[statusIndex][3] = statusData[i].color_dark;
 
     statusIndex++;
   }
@@ -423,6 +447,7 @@ function renderUserActivity() {
 
   // Add a row for each user's activity (except untested) that have a total > 0
   var dataIndex = 0;
+  var fontColor = "";
   for (var i = 0; i < userActivity.length; i++) {
     if (userActivity[i][6+customStatusCount] > 0) {
       data.addRows(1);
@@ -431,14 +456,19 @@ function renderUserActivity() {
       data.setCell(dataIndex, 0, userActivity[i][7+customStatusCount]);
 
       // Add the system statuses to the row with their status color as the background
-      data.setCell(dataIndex, 1, userActivity[i][1], null, {'style': 'background-color:' + getStatusColor("passed") + ';'});
-      data.setCell(dataIndex, 2, userActivity[i][2], null, {'style': 'background-color:' + getStatusColor("blocked") + ';'});
-      data.setCell(dataIndex, 3, userActivity[i][4], null, {'style': 'background-color:' + getStatusColor("retest") + ';'});
-      data.setCell(dataIndex, 4, userActivity[i][5], null, {'style': 'background-color:' + getStatusColor("failed") + ';'});
+      fontColor = determineFontColor(getStatusColor("passed"));
+      data.setCell(dataIndex, 1, userActivity[i][1], null, {'style': 'background-color:' + getStatusColor("passed") + '; color:' + fontColor + ';'});
+      fontColor = determineFontColor(getStatusColor("blocked"));
+      data.setCell(dataIndex, 2, userActivity[i][2], null, {'style': 'background-color:' + getStatusColor("blocked") + '; color:' + fontColor + ';'});
+      fontColor = determineFontColor(getStatusColor("retest"));
+      data.setCell(dataIndex, 3, userActivity[i][4], null, {'style': 'background-color:' + getStatusColor("retest") + '; color:' + fontColor + ';'});
+      fontColor = determineFontColor(getStatusColor("failed"));
+      data.setCell(dataIndex, 4, userActivity[i][5], null, {'style': 'background-color:' + getStatusColor("failed") + '; color:' + fontColor + ';'});
 
       // Add any custom statuses to the row with their status color as the background
       for (var j = 1; j <= customStatusCount; j++) {
-        data.setCell(dataIndex, 4+j, userActivity[i][5+j], null, {'style': 'background-color:' + getStatusColor("custom_status" + String(j)) + ';'});
+        fontColor = determineFontColor(getStatusColor("custom_status" + String(j)));
+        data.setCell(dataIndex, 4+j, userActivity[i][5+j], null, {'style': 'background-color:' + getStatusColor("custom_status" + String(j)) + '; color:' + fontColor + ';'});
       }
 
       // Add the total to the row
