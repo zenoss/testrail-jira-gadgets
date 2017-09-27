@@ -256,7 +256,12 @@ function handlePlanResponse(obj) {
  * Sort the array by the first column (name)
  */
 function sortByName(a, b) {
-    return a[0] > b[0];
+  var n1 = a[0].toLowerCase();
+  var n2 = b[0].toLowerCase();
+
+  if (n1 < n2) return -1;
+  if (n1 > n2) return 1;
+  return 0;
 }
 
 /**
